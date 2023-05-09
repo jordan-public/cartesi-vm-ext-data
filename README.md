@@ -3,7 +3,7 @@
 
 ## Introduction
 
-[Cartesi](https://cartesi.io) is an Optimistic rollup running on top of layer 1 (or 2, etc.) Ethereum Virtual Machine (EVM) blockchains. The Cartesi Virtual Machine (VM) is a RISC-V virtual machine which has the capability to mark specific locations in its state as "dirty" and occasionally save its state in a Merkle tree. This allows it to not only commit snapshots of its state, but efficiently keep an entire history of state changes. If and when a fraud dispute needs to be generated, this allows the "faulty" instruction to be pinpointed and proven fraudulent by emulating it on the EVM.
+[Cartesi](https://cartesi.io) is an Optimistic rollup running on top of layer 1 (or 2, etc.) Ethereum Virtual Machine (EVM) blockchains. The Cartesi Virtual Machine (VM) is a RISC-V virtual machine which has the capability to mark specific locations in its state as "dirty" and occasionally save its state in a Merkle tree, which is quite diff-friendly. This allows it to not only commit snapshots of its state, but efficiently keep its entire history of state changes. If and when a fraud dispute needs to be generated, this allows the "faulty" instruction to be pinpointed and proven fraudulent by emulating it on the EVM.
 
 In addition the Cartesi VM is **deterministic**. It is single processor (but possibly multi-threaded) RISC-V VM. This allows multiple instances of it to produce the exact same state changes and output, given the exact same initial state and input. As such, multiple nodes can run the same execution VM and consent upon the correctness of the execution.
 
@@ -25,7 +25,7 @@ Sometimes it is enough to have data commitment instead of availability. Using Me
 
 The commitment can be recorded on the EVM as input to Cartesi, and each consequent request in the pre-committed data can be accessed or proven by passing the Merkle path through the EVM, again as input. 
 
-This is still not enough! The Cartesi VM can do more than just verification - it can compute on big data, only of that data were available.
+This is still not enough! The Cartesi VM can do more than just verification - it can compute on big data, only if that data were available.
 ## External Data Availability
 
 Let's propose a new architecture:
@@ -46,8 +46,8 @@ In addition to the forward execution, we have to consider what happens when at l
 
 A more detailed look into the feasibility is needed. We need to consider the following:
 
-- Does the current implementation of the Cartesi Linux build have read-only file systems available? Do we maybe need to build a device driver for such read only FS?
-- How complicated is to inject code into the Cartesi Server to verify the validity and availability of the input CIDs.
+- Does the current implementation of the Cartesi Linux build have read-only file systems (FS) available? Do we maybe need to build a device driver for such read only IPFS FS?
+- How complicated is to inject code into the Cartesi Server to verify the validity and availability of the input CIDs?
 - Is the CID checking pre-compile on FEVM available now? If not, how easy is to build it? The Filecoin blockchain blockchain executes WASM and should at least be able to check on a specific IPLD node. Then, we may have to build a traversal mechanism to check the availability and consistency of the entire tree. See [Filecoin VM (FVM)](https://fvm.filecoin.io/).
 
 This is not a project for a hackathon. Even if everything goes smoothly, several developer-months may be required. It may be even more difficult as FVM is a work-in-progress project. Maybe Cartesi and Protocol Labs can help with advice? Before this is started as a project, some research has to be completed to discover what components are available and reliable today.
