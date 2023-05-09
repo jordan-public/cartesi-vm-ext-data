@@ -34,6 +34,7 @@ Let's propose a new architecture:
 2. The committed data is mounted as file system in the OS running on the Cartesi VM. It can be accessed in its entirety as a tree of directories and files in them.
 3. In addition to the Cartesi VM an IPFS node is attached to each Cartesi node. In the (1.) above, only "pinned" roots can be passed to the EVM. This would guarantee data availability.
 4. To verify (3.) above, the EVM would be an FEVM (Filecoin EVM), with a built-in pre-compile which verifies that a particular CID is pinned in the IPFS node. The Cartesi server would call this EVM pre-compile to make sure no input can be passed as CID without a guarantee that it is available in its entirety.
+5. The IPFS data does not have to be pinned forever. As soon as the dispute grace period for the Cartesi epoch passes, the IPFS Pin can be removed and the related data can flush out of its cache as needed.
 
 The above architecture would guarantee that each Cartesi node experiences exactly the same data intake.
 
