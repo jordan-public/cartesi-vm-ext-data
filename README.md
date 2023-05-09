@@ -19,7 +19,7 @@ However, there is a problem: the Cartesi VM can perform powerful calculations bu
 In order to guarantee determinism, the Cartesi VM cannot communicate with the "outside world". It cannot have network access, external file systems or input outside of the one recorded on the underlying EVM.
 
 If such external data is to be accessed, it would have to be guaranteed to get to all Cartesi nodes (actually, those involved in a particular matched set, working on a common task). In addition, the eventual fraud proof would have to be able to not emulate the RISC-V on the EVM, but also produce proofs that a specific node did not get the correct data (this needs ellaboration!).
-## External Data Commintment
+## External Data Commitment
 
 Sometimes it is enough to have data commitment instead of availability. Using Merkle trees, large data sets can be recorded, where the root uniquely identifies the entire data set (almost; well, intractably hard to produce two distinct Merkle trees with identical Merkle root). This is in case the program running on the Cartesi node needs to check on the data at arbitrary points. In other words, to verify part of the pre-committed data.
 
